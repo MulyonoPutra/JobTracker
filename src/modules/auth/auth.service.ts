@@ -67,10 +67,7 @@ export class AuthService {
 
     const tokens = await this.getToken(user.id, user.email);
 
-    return {
-      tokens,
-      user,
-    };
+    return tokens;
   }
 
   async findUserById(id: string) {

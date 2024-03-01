@@ -5,13 +5,13 @@ import {
   applyDecorators,
 } from '@nestjs/common';
 
-import { AuthenticationGuard } from '../../modules/auth/guards/authentication.guard';
+import { AuthGuards } from '../guards/auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 
 export function UploadAvatarDecorator() {
   return applyDecorators(
-    UseGuards(AuthenticationGuard),
+    UseGuards(AuthGuards),
     UseInterceptors(
       FileInterceptor('avatar', {
         storage: diskStorage({

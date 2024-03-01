@@ -1,4 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import * as cloudinary from 'cloudinary';
+
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -49,5 +52,37 @@ export class UserService {
     return await this.prismaService.user.delete({
       where: { id },
     });
+  }
+
+  async uploadAvatar(id: string, file: Express.Multer.File) {
+    const result = await cloudinary.v2.uploader.upload(file.path, {
+      folder: 'nest',
+    });
+    const avatar = result.secure_url;
+    const user = await this.prismaService.user.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (user) {
+      const updated = await this.prismaService.user.update({
+        data: {
+          avatar,
+        },
+        where: {
+          id,
+        },
+      });
+
+      if (updated) {
+        return {
+          statusCode: 200,
+          message: 'Avatar Uploaded!',
+        };
+      }
+    }
+
+    throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
   }
 }

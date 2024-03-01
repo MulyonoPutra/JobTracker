@@ -3,6 +3,7 @@ import { ActivityModule } from './modules/activity/activity.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { ConfigModule } from '@nestjs/config';
 import { HttpExceptionFilter } from './modules/auth/utils/http-exception.filter';
 import { JobCategoryModule } from './modules/job-category/job-category.module';
@@ -23,6 +24,7 @@ import { join } from 'path';
       rootPath: join(__dirname, '..', 'public'),
     }),
     ConfigModule.forRoot({ isGlobal: true }),
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [
