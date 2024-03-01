@@ -9,10 +9,12 @@ import { JobCategoryModule } from './modules/job-category/job-category.module';
 import { Module } from '@nestjs/common';
 import { PrismaModule } from './prisma/prisma.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { UserModule } from './modules/user/user.module';
 import { join } from 'path';
 
 @Module({
   imports: [
+    UserModule,
     PrismaModule,
     JobCategoryModule,
     ActivityModule,
