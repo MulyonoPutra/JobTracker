@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   UseGuards,
+  BadRequestException,
+  Query,
 } from '@nestjs/common';
 import { ActivityService } from './activity.service';
 import { CreateActivityDto } from './dto/create-activity.dto';
@@ -28,8 +30,16 @@ export class ActivityController {
   }
 
   @Get()
-  findAll() {
-    return this.activityService.findAll();
+  findAll(@Query('page') page?: string, @Query('perPage') perPage?: string) {
+    const parsedPage = parseInt(page, 10) || 1;
+    const parsedPerPage = parseInt(perPage, 10) || 10;
+
+    if (parsedPage < 1 || parsedPerPage < 1) {
+      throw new BadRequestException(
+        'Page and perPage must be positive integers',
+      );
+    }
+    return this.activityService.findAll(parsedPage, parsedPerPage);
   }
 
   @Get(':id')
