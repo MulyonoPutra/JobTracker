@@ -9,4 +9,5 @@ export class CreateActivityDto {
   categoryId: string;
   jobPosted: string;
   userId: string;
+  platform: string;
 }

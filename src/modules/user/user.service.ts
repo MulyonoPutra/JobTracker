@@ -31,6 +31,9 @@ export class UserService {
         email: true,
         name: true,
         avatar: true,
+        address: true,
+        education: true,
+        experience: true,
       },
     });
   }

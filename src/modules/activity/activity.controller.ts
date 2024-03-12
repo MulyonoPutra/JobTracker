@@ -42,6 +42,27 @@ export class ActivityController {
     return this.activityService.findAll(parsedPage, parsedPerPage);
   }
 
+  @Get('filter')
+  filterByStatus(
+    @Query('page') page?: string,
+    @Query('perPage') perPage?: string,
+    @Query('status') status?: string, // Add status query parameter
+  ) {
+    const parsedPage = parseInt(page, 10) || 1;
+    const parsedPerPage = parseInt(perPage, 10) || 10;
+
+    if (parsedPage < 1 || parsedPerPage < 1) {
+      throw new BadRequestException(
+        'Page and perPage must be positive integers',
+      );
+    }
+    return this.activityService.filterByStatus(
+      parsedPage,
+      parsedPerPage,
+      status,
+    );
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.activityService.findOne(id);

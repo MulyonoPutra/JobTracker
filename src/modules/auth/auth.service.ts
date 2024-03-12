@@ -22,9 +22,9 @@ export class AuthService {
     private config: ConfigService,
   ) {}
 
-  async register(data: RegisterDTO): Promise<Credentials> {
+  async register(data: RegisterDTO) {
     const password = await hash(data.password, 12);
-    const user = await this.prismaService.user
+    await this.prismaService.user
       .create({
         data: {
           name: data.name,
@@ -41,9 +41,12 @@ export class AuthService {
         throw error;
       });
 
-    const tokens = await this.getToken(user.id, user.email);
+    const response = {
+      name: data.name,
+      email: data.email,
+    };
 
-    return tokens;
+    return response;
   }
 
   async login(data: LoginDTO) {

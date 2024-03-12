@@ -13,7 +13,6 @@ import {
 
 import { AuthService } from './auth.service';
 import { RegisterDTO } from './dto/register.dto';
-import { Credentials } from './types/credentials.type';
 import { LoginDTO } from './dto/login.dto';
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { Public } from 'src/common/decorators';
@@ -26,7 +25,7 @@ export class AuthController {
   @HttpCode(HttpStatus.CREATED)
   @UsePipes(ValidationPipe)
   @Post('register')
-  register(@Body() body: RegisterDTO): Promise<Credentials> {
+  register(@Body() body: RegisterDTO) {
     return this.authService.register(body);
   }
 

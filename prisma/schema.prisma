@@ -1,6 +1,13 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// Once there is some change from this schema file,
+// run this command:
+
+// Npx prisma db push
+// Npx prisma generate
+
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,36 +20,82 @@ datasource db {
 }
 
 model user {
-    id           String   @id @default(uuid())
-    email        String   @unique(map: "User_email_key")
-    name         String?
-    password     String?
-    avatar       String?
-    activity     activity[]
+  id         String       @id @default(uuid())
+  email      String       @unique(map: "User_email_key")
+  name       String?
+  password   String?
+  avatar     String?
+  address    address?
+  experience experience[]
+  education  education[]
+  activity   activity[]
+}
+
+model address {
+  id            String @id @default(uuid())
+  streetAddress String
+  village       String
+  district      String
+  subDistrict   String
+  province      String
+  postalCode    String
+  userId        String @unique
+
+  user user @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model education {
+  id          String   @id @default(uuid())
+  startDate   String
+  endDate     String
+  title       String
+  institution String
+  description String?
+  GPA         Float?
+  userId      String
+  user        user     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model experience {
+  id               String @id @default(uuid())
+  startDate        String
+  endDate          String
+  location         String
+  position         String
+  company          String
+  responsibilities String
+  userId           String
+  user user @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
 
 model activity {
-    id            String   @id @default(uuid())
-    companyName   String
-    position      String
-    location      String
-    jobType       String
-    status        String
-    appliedOn     String
-    jobPosted     String
-    categoryId    String
-    userId        String
+  id          String @id @default(uuid())
+  companyName String
+  position    String
+  location    String
+  jobType     String
+  status      String
+  appliedOn   String
+  jobPosted   String
+  platform    String
+  categoryId  String
+  userId      String
 
-    category      category? @relation(fields: [categoryId], references: [id])
-    user          user?     @relation(fields: [userId], references: [id])
+  category category? @relation(fields: [categoryId], references: [id])
+  user     user?     @relation(fields: [userId], references: [id])
 
-
-    @@index([categoryId])
-    @@index([userId])
+  @@index([categoryId])
+  @@index([userId])
 }
 
 model category {
-    id            String @id @default(uuid())
-    name          String
-    activity      activity[]
+  id       String     @id @default(uuid())
+  name     String
+  activity activity[]
 }

@@ -4,6 +4,7 @@ import { Activity } from './entities/activity.entity';
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateActivityDto } from './dto/update-activity.dto';
+import { activitiesPopulate } from './helpers/activities.populate';
 
 @Injectable()
 export class ActivityService {
@@ -21,24 +22,43 @@ export class ActivityService {
     const activities = await this.prismaService.activity.findMany({
       skip,
       take: perPage,
-      select: {
-        id: true,
-        companyName: true,
-        position: true,
-        location: true,
-        jobType: true,
-        status: true,
-        jobPosted: true,
-        category: true,
-        appliedOn: true,
-        user: {
-          select: {
-            name: true,
-            email: true,
-            avatar: true,
-          },
-        },
+      select: activitiesPopulate,
+    });
+
+    const total = await this.prismaService.category.count();
+    const lastPage = Math.ceil(total / perPage);
+
+    const response = {
+      items: activities,
+      pagination: {
+        total: total,
+        lastPage: lastPage,
+        currentPage: page,
+        perPage: perPage,
+        prev: page > 1 ? page - 1 : null,
+        next: page < lastPage ? page + 1 : null,
       },
+    };
+    return response;
+  }
+
+  async filterByStatus(page?: number, perPage?: number, status?: string) {
+    const skip = (page - 1) * perPage;
+    let whereClause = {};
+
+    if (status) {
+      whereClause = {
+        status: {
+          equals: status,
+        },
+      };
+    }
+
+    const activities = await this.prismaService.activity.findMany({
+      skip,
+      take: perPage,
+      select: activitiesPopulate,
+      where: whereClause,
     });
 
     const total = await this.prismaService.category.count();
@@ -63,24 +83,7 @@ export class ActivityService {
       where: {
         id,
       },
-      select: {
-        id: true,
-        companyName: true,
-        position: true,
-        location: true,
-        jobType: true,
-        status: true,
-        jobPosted: true,
-        category: true,
-        appliedOn: true,
-        user: {
-          select: {
-            name: true,
-            email: true,
-            avatar: true,
-          },
-        },
-      },
+      select: activitiesPopulate,
     });
 
     if (!activity) {

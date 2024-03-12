@@ -9,12 +9,14 @@ import { HttpExceptionFilter } from './modules/auth/utils/http-exception.filter'
 import { JobCategoryModule } from './modules/job-category/job-category.module';
 import { Module } from '@nestjs/common';
 import { PrismaModule } from './prisma/prisma.module';
+import { ProfileModule } from './modules/profile/profile.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { UserModule } from './modules/user/user.module';
 import { join } from 'path';
 
 @Module({
   imports: [
+    ProfileModule,
     UserModule,
     PrismaModule,
     JobCategoryModule,
@@ -39,4 +41,4 @@ import { join } from 'path';
     // },
   ],
 })
-export class AppModule {}
+export class AppModule { }
