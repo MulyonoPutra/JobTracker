@@ -17,6 +17,7 @@ export class UserService {
         name: true,
         email: true,
         avatar: true,
+        summary: true,
       },
     });
   }
@@ -31,6 +32,7 @@ export class UserService {
         email: true,
         name: true,
         avatar: true,
+        summary: true,
         address: true,
         education: true,
         experience: true,
@@ -47,6 +49,7 @@ export class UserService {
         email: true,
         name: true,
         avatar: true,
+        summary: true,
       },
     });
   }

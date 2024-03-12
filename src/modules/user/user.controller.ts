@@ -3,7 +3,6 @@ import {
   Get,
   Body,
   Patch,
-  Param,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -38,9 +37,10 @@ export class UserController {
     return await this.userService.findOne(id);
   }
 
+  @UseGuards(AuthGuards)
   @UsePipes(ValidationPipe)
   @Patch('/:id')
-  update(@Param('id') userId: string, @Body() body: UpdateUserDto) {
+  update(@CurrentUserId() userId: string, @Body() body: UpdateUserDto) {
     return this.userService.updated(userId, body);
   }
 

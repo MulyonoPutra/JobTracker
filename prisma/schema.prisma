@@ -25,6 +25,7 @@ model user {
   name       String?
   password   String?
   avatar     String?
+  summary   String?
   address    address?
   experience experience[]
   education  education[]
