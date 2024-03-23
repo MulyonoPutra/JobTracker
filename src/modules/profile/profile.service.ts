@@ -52,12 +52,18 @@ export class ProfileService {
    * @param userId
    * @returns
    */
-  async newEducation(createEducationDto: CreateEducationDto, userId?: string) {
-    if (userId) {
-      createEducationDto.userId = userId;
-    }
-    return await this.prismaService.education.create({
-      data: createEducationDto,
+  async newEducation(
+    createEducationDto: CreateEducationDto[],
+    userId?: string,
+  ) {
+    const education = createEducationDto.map((dto) => {
+      if (userId) {
+        dto.userId = userId;
+      }
+      return dto;
+    });
+    return await this.prismaService.education.createMany({
+      data: education,
     });
   }
 

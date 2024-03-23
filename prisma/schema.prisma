@@ -7,7 +7,6 @@
 // Npx prisma db push
 // Npx prisma generate
 
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -20,18 +19,18 @@ datasource db {
 }
 
 model user {
-  id          String       @id @default(uuid())
-  email       String       @unique(map: "User_email_key")
-  name        String?
-  password    String?
-  avatar      String?
-  birthday    String?
-  phone       String?
-  summary     String?
-  address     address?
-  experience  experience[]
-  education   education[]
-  activity    activity[]
+  id         String       @id @default(uuid())
+  email      String       @unique(map: "User_email_key")
+  name       String?
+  password   String?
+  avatar     String?
+  birthday   String?
+  phone      String?
+  summary    String?
+  address    address?
+  experience experience[]
+  education  education[]
+  activity   activity[]
 }
 
 model address {
@@ -50,7 +49,7 @@ model address {
 }
 
 model education {
-  id          String   @id @default(uuid())
+  id          String  @id @default(uuid())
   startDate   String
   endDate     String
   title       String
@@ -58,7 +57,7 @@ model education {
   description String?
   GPA         Float?
   userId      String
-  user        user     @relation(fields: [userId], references: [id])
+  user        user    @relation(fields: [userId], references: [id])
 
   @@index([userId])
 }
@@ -70,9 +69,9 @@ model experience {
   location         String
   position         String
   company          String
-  responsibilities String
+  responsibilities String @db.Text
   userId           String
-  user user @relation(fields: [userId], references: [id])
+  user             user   @relation(fields: [userId], references: [id])
 
   @@index([userId])
 }

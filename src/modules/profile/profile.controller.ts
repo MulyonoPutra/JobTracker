@@ -43,7 +43,7 @@ export class ProfileController {
   @UseGuards(AuthenticationGuard)
   @Post('education')
   createEducation(
-    @Body() createEducationDto: CreateEducationDto,
+    @Body() createEducationDto: CreateEducationDto[],
     @CurrentUserId() userId: string,
   ) {
     return this.profileService.newEducation(createEducationDto, userId);
