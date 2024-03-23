@@ -74,6 +74,12 @@ export class ProfileService {
     });
   }
 
+  async removeEducation(id: string) {
+    return await this.prismaService.education.delete({
+      where: { id },
+    });
+  }
+
   /**
    * Create new Experience
    * @param createExperienceDto
@@ -81,14 +87,17 @@ export class ProfileService {
    * @returns
    */
   async newExperience(
-    createExperienceDto: CreateExperienceDto,
+    createExperienceDto: CreateExperienceDto[],
     userId?: string,
   ) {
-    if (userId) {
-      createExperienceDto.userId = userId;
-    }
-    return await this.prismaService.experience.create({
-      data: createExperienceDto,
+    const experiences = createExperienceDto.map((dto) => {
+      if (userId) {
+        dto.userId = userId;
+      }
+      return dto;
+    });
+    return await this.prismaService.experience.createMany({
+      data: experiences,
     });
   }
 
@@ -101,6 +110,12 @@ export class ProfileService {
   async updateExperience(id: string, updateExperienceDto: UpdateExperienceDto) {
     return await this.prismaService.experience.update({
       data: updateExperienceDto,
+      where: { id },
+    });
+  }
+
+  async remove(id: string) {
+    return await this.prismaService.experience.delete({
       where: { id },
     });
   }

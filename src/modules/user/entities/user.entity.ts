@@ -4,4 +4,6 @@ export class User {
   email: string;
   avatar: string;
   summary: string;
+  birthday: string;
+  phone: string;
 }

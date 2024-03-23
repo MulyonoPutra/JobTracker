@@ -18,6 +18,8 @@ export class UserService {
         email: true,
         avatar: true,
         summary: true,
+        birthday: true,
+        phone: true,
       },
     });
   }
@@ -33,6 +35,8 @@ export class UserService {
         name: true,
         avatar: true,
         summary: true,
+        birthday: true,
+        phone: true,
         address: true,
         education: true,
         experience: true,
@@ -50,6 +54,8 @@ export class UserService {
         name: true,
         avatar: true,
         summary: true,
+        birthday: true,
+        phone: true,
       },
     });
   }

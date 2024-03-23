@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Param,
   Patch,
   Post,
@@ -59,7 +60,7 @@ export class ProfileController {
   @UseGuards(AuthenticationGuard)
   @Post('experience')
   createExperience(
-    @Body() createExperienceDto: CreateExperienceDto,
+    @Body() createExperienceDto: CreateExperienceDto[],
     @CurrentUserId() userId: string,
   ) {
     return this.profileService.newExperience(createExperienceDto, userId);
@@ -71,5 +72,15 @@ export class ProfileController {
     @Body() updateExperienceDto: UpdateExperienceDto,
   ) {
     return this.profileService.updateExperience(id, updateExperienceDto);
+  }
+
+  @Delete('experience/:id')
+  removeExperience(@Param('id') id: string) {
+    return this.profileService.remove(id);
+  }
+
+  @Delete('education/:id')
+  removeEducation(@Param('id') id: string) {
+    return this.profileService.removeEducation(id);
   }
 }
